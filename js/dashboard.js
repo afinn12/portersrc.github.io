@@ -34,6 +34,7 @@ $(document).ready(function () {
     function populate_table(job_stats) {
         for (var [name, stat] of Object.entries(job_stats)) {
             re = new RegExp('kata-containers-ci-on-push / run-.*-tests.*');
+
             if (re.test(name)) {
                 var [img_tag, img_sort] = get_weather_icon(stat);
                 var urls = stat['urls'].join(' ');
@@ -53,10 +54,110 @@ $(document).ready(function () {
         // Hard-code for now...could dynamically set the table name or something
         // more sophisticated later if we have want more tables, etc.
         $('#weather-table-name').append(
-          '<a href="https://github.com/kata-containers/kata-containers/actions/workflows/ci-nightly.yaml">'
+          '<a class="title" href="https://github.com/kata-containers/kata-containers/actions/workflows/ci-nightly.yaml">'
         + 'Kata Containers CI Nightly'
         + '</a>'
         );
+    }
+
+
+    function populate_table2(job_stats) {
+        let levels = [];
+        let paths = new Set();
+
+        var names = Object.keys(job_stats);
+        
+        var max = 0;
+
+        for (let i = 0; i<names.length;i++)
+        {
+            names[i] = names[i].split('/');
+            
+            if (max <names[i].length)
+            {
+                console.log("name: " + names[i] )
+                console.log("len: " + names[i].length )
+
+                max = names[i].length
+            }
+            
+        }
+        console.log("max: " + max )
+
+        for (let i = 0; i < max; i++)
+        {
+            for (let n of names)
+            {
+                paths.add(n[i]);
+            }
+            //for each unique path, create row
+
+            //clear paths
+
+        }
+    
+
+        for (let p of paths)
+        {
+            console.log("paths: " + p);
+        }
+
+
+        // each names[i][j], as j increments, goes through path
+        // same [j] same level in tree
+        // for each j, create a level for unique. 
+        // for each subsequent unique j, put under respective prior j
+        // when last j, put tests under 
+        
+
+        for (var [name, stat] of Object.entries(job_stats)) {
+            re = new RegExp('kata-containers-ci-on-push / run-.*-tests.*');
+            var n = name.split('/');
+            for (let i = 0; i<n.length-1; i++)
+            {
+                paths[n[i]] = n[i+1];
+            }
+           
+
+            // if (re.test(name)) {
+            //     var [img_tag, img_sort] = get_weather_icon(stat);
+            //     var urls = stat['urls'].join(' ');
+            //     var results = stat['results'].join(' ');
+            //     var run_nums = stat['run_nums'].join(' ');
+            //     $('#weather-table tbody').append(
+            //       '<tr data-urls="'+urls+'" data-results="'+results+'" data-run-nums="'+run_nums+'">' +
+            //         '<td class="dt-left dt-control">'+name+'</td>' +
+            //         '<td>'+stat['runs']+'</td>' +
+            //         '<td>'+stat['fails']+'</td>' +
+            //         '<td>'+stat['skips']+'</td>' +
+            //         '<td data-sort="'+img_sort+'">'+img_tag+'</td>' +
+            //       '</tr>'
+            //     );
+            // }
+        }
+     
+        // Hard-code for now...could dynamically set the table name or something
+        // more sophisticated later if we have want more tables, etc.
+        $('#weather-table-name').append(
+          '<a class="title" href="https://github.com/kata-containers/kata-containers/actions/workflows/ci-nightly.yaml">'
+        + 'Kata Containers CI Nightly'
+        + '</a>'
+        );
+    }
+
+    function create_tree_children(tr) 
+    {
+        var job_urls = '';
+        for (var i = 0; i < urls.length; i++) {
+            job_urls += '' + result_to_color[results[i]]
+                           + '<a href="'
+                           + urls[i]
+                           + '">'
+                           + run_nums[i]
+                           + '</a><span class="p-2"></span>';
+        }
+        return job_urls;
+        
     }
 
     // Create the hyperlinks that will show up when we click a name for more

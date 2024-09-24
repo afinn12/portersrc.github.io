@@ -1,0 +1,79 @@
+body {
+    background-color: rgb(56, 53, 121);
+
+}
+
+
+a:visited {
+    color:rgb(119, 119, 119);
+}
+
+a:hover{
+    color:  rgb(139, 151, 222);;
+}
+
+a {
+    color: black; 
+}
+
+
+.title:visited {
+    color: rgb(119, 119, 119);
+}
+
+.title:hover{
+    color: white;
+}
+.title {
+    color: rgb(180, 180, 180);
+}
+
+
+.mt-3 {
+    color:white;
+    font-size: 50px;
+    font-weight: bolder;
+    background-color: rgb(111, 106, 200);
+    width: fit-content;
+    padding: 20px 30px;
+}
+
+
+.weather-table {
+    background-color: black;
+    color: red;
+}
+
+.container {
+    margin-left: 200px;
+}
+
+nav {
+    width: 200px;
+    height: 100vh; /* Full viewport height */
+    background-color:rgb(171, 168, 216); 
+    border: 10px solid rgb(111, 106, 200);
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+}
+
+nav ul {
+    list-style-type:none;
+}
+
+li {
+    margin-left: -15px;
+    margin-bottom: 15px;
+    width: 145px;
+    background-color: rgb(111, 106, 200);
+
+}
+
+li a {
+    padding: 5px;
+    font-size: 20px;
+    color: white;
+    text-decoration:none;
+}
