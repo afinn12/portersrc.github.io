@@ -60,53 +60,25 @@ $(document).ready(function () {
         );
     }
 
+    function get_job_tree(job_stats) {
+        var job_tree = {};
+        for (var [name, stat] of Object.entries(job_stats)) {
+            var path = name.split(' / ');
+            var curr = job_tree;
+            for (var i = 0; i < path.length; i++) {
+                if (curr[path[i]] === undefined) {
+                    curr[path[i]] = {};
+                }
+                curr = curr[path[i]];
+            }
+        }
+        return job_tree;
+    }
+
 
     function populate_table2(job_stats) {
-        let levels = [];
-        let paths = new Set();
+        var job_tree = get_job_tree(job_stats);
 
-        var names = Object.keys(job_stats);
-        
-        var max = 0;
-
-        for (let i = 0; i<names.length;i++)
-        {
-            names[i] = names[i].split('/');
-            
-            if (max <names[i].length)
-            {
-                console.log("name: " + names[i] )
-                console.log("len: " + names[i].length )
-
-                max = names[i].length
-            }
-            
-        }
-        console.log("max: " + max )
-
-        for (let i = 0; i < max; i++)
-        {
-            for (let n of names)
-            {
-                paths.add(n[i]);
-            }
-            //for each unique path, create row
-
-            //clear paths
-
-        }
-    
-
-        for (let p of paths)
-        {
-            console.log("paths: " + p);
-        }
-
-
-        // each names[i][j], as j increments, goes through path
-        // same [j] same level in tree
-        // for each j, create a level for unique. 
-        // for each subsequent unique j, put under respective prior j
         // when last j, put tests under 
         
 
@@ -119,21 +91,21 @@ $(document).ready(function () {
             }
            
 
-            // if (re.test(name)) {
-            //     var [img_tag, img_sort] = get_weather_icon(stat);
-            //     var urls = stat['urls'].join(' ');
-            //     var results = stat['results'].join(' ');
-            //     var run_nums = stat['run_nums'].join(' ');
-            //     $('#weather-table tbody').append(
-            //       '<tr data-urls="'+urls+'" data-results="'+results+'" data-run-nums="'+run_nums+'">' +
-            //         '<td class="dt-left dt-control">'+name+'</td>' +
-            //         '<td>'+stat['runs']+'</td>' +
-            //         '<td>'+stat['fails']+'</td>' +
-            //         '<td>'+stat['skips']+'</td>' +
-            //         '<td data-sort="'+img_sort+'">'+img_tag+'</td>' +
-            //       '</tr>'
-            //     );
-            // }
+            if (re.test(name)) {
+                var [img_tag, img_sort] = get_weather_icon(stat);
+                var urls = stat['urls'].join(' ');
+                var results = stat['results'].join(' ');
+                var run_nums = stat['run_nums'].join(' ');
+                $('#weather-table tbody').append(
+                  '<tr data-urls="'+urls+'" data-results="'+results+'" data-run-nums="'+run_nums+'">' +
+                    '<td class="dt-left dt-control">'+name+'</td>' +
+                    '<td>'+stat['runs']+'</td>' +
+                    '<td>'+stat['fails']+'</td>' +
+                    '<td>'+stat['skips']+'</td>' +
+                    '<td data-sort="'+img_sort+'">'+img_tag+'</td>' +
+                  '</tr>'
+                );
+            }
         }
      
         // Hard-code for now...could dynamically set the table name or something
