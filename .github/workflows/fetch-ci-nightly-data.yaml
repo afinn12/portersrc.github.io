@@ -22,7 +22,7 @@ jobs:
           git fetch --all
           git checkout latest-dashboard-data
           # back out whatever data was there
-          git reset HEAD~1
+          # git reset HEAD~1
           # overwrite the old data
           mv tmp-data.js data/ci-nightly-data.js
           # commit
