@@ -3,6 +3,8 @@ run-name: Fetch CI Nightly Data
 on:
   schedule:
     - cron: '0 12 * * *'
+  workflow_dispatch:
+
 jobs:
   fetch-and-commit-data:
     runs-on: ubuntu-22.04
