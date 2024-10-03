@@ -32,10 +32,14 @@ $(document).ready(function () {
     }
 
     function populate_table(job_stats) {
+        const url = new URLSearchParams(window.location.search);
+        const searchParam = url.get('search') || "";
+        console.log(searchParam)
+
         for (var [name, stat] of Object.entries(job_stats)) {
             re = new RegExp('kata-containers-ci-on-push / run-.*-tests.*');
 
-            if (re.test(name)) {
+            if (re.test(name) && name.toLowerCase().includes(searchParam.toLowerCase())) {
                 var [img_tag, img_sort] = get_weather_icon(stat);
                 var urls = stat['urls'].join(' ');
                 var results = stat['results'].join(' ');
@@ -59,36 +63,6 @@ $(document).ready(function () {
         + 'Kata Containers CI Nightly'
         + '</a>'
         );
-    }
-
-    function get_job_tree(job_stats) {
-        var job_tree = {};
-        for (var [name, stat] of Object.entries(job_stats)) {
-            var path = name.split(' / ');
-            var curr = job_tree;
-            for (var i = 0; i < path.length; i++) {
-                if (curr[path[i]] === undefined) {
-                    curr[path[i]] = {};
-                }
-                curr = curr[path[i]];
-            }
-        }
-        return job_tree;
-    }
-
-    function create_tree_children(tr) 
-    {
-        var job_urls = '';
-        for (var i = 0; i < urls.length; i++) {
-            job_urls += '' + result_to_color[results[i]]
-                           + '<a href="'
-                           + urls[i]
-                           + '">'
-                           + run_nums[i]
-                           + '</a><span class="p-2"></span>';
-        }
-        return job_urls;
-        
     }
 
     // Create the hyperlinks that will show up when we click a name for more
@@ -150,27 +124,9 @@ $(document).ready(function () {
         requiredFilter();
     });
 
-    function urlFilter() {
-        const url = new URLSearchParams(window.location.search);
-        const searchParam = url.get('search') 
-        console.log(searchParam);
-
-        $('#weather-table tbody tr').each(function() {
-            const name = $(this).find('td').eq(0).text();
-            if(name.toLowerCase().includes(searchParam.toLowerCase()))
-            {
-                $(this).show(); 
-            } else {
-                $(this).hide(); 
-            }
-    })
-
-    }
-
     function main() {
         populate_table(ci_nightly_data);
         set_datatable_options();
-        urlFilter();
     }
 
     main();
