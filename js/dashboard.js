@@ -150,9 +150,27 @@ $(document).ready(function () {
         requiredFilter();
     });
 
+    function urlFilter() {
+        const url = new URLSearchParams(window.location.search);
+        const searchParam = url.get('search') 
+        console.log(searchParam);
+
+        $('#weather-table tbody tr').each(function() {
+            const name = $(this).find('td').eq(0).text();
+            if(name.toLowerCase().includes(searchParam.toLowerCase()))
+            {
+                $(this).show(); 
+            } else {
+                $(this).hide(); 
+            }
+    })
+
+    }
+
     function main() {
         populate_table(ci_nightly_data);
         set_datatable_options();
+        urlFilter();
     }
 
     main();
