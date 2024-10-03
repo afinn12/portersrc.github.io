@@ -43,7 +43,7 @@ $(document).ready(function () {
                 $('#weather-table tbody').append(
                   '<tr data-urls="'+urls+'" data-results="'+results+'" data-run-nums="'+run_nums+'">' +
                     '<td class="dt-left dt-control">'+name+'</td>' +
-                    // '<td>'+stat['required']+'</td>' +
+                    '<td>'+stat['required']+'</td>' +
                     '<td>'+stat['runs']+'</td>' +
                     '<td>'+stat['fails']+'</td>' +
                     '<td>'+stat['skips']+'</td>' +
@@ -131,6 +131,24 @@ $(document).ready(function () {
             }
         });
     }
+
+    function requiredFilter() {
+        $('#weather-table tbody tr').each(function() {
+            var required = $(this).find('td').eq(1).text();
+            console.log(required);
+            if(required == 'false' && $('#filterRequired').is(':checked'))
+            {
+                $(this).hide(); 
+            } else {
+                $(this).show(); 
+            }
+    })
+    }
+
+    // Event listener for the required filter 
+    $('#filterRequired').change(function() {
+        requiredFilter();
+    });
 
     function main() {
         populate_table(ci_nightly_data);
