@@ -43,6 +43,7 @@ $(document).ready(function () {
                 $('#weather-table tbody').append(
                   '<tr data-urls="'+urls+'" data-results="'+results+'" data-run-nums="'+run_nums+'">' +
                     '<td class="dt-left dt-control">'+name+'</td>' +
+                    // '<td>'+stat['required']+'</td>' +
                     '<td>'+stat['runs']+'</td>' +
                     '<td>'+stat['fails']+'</td>' +
                     '<td>'+stat['skips']+'</td>' +
@@ -73,48 +74,6 @@ $(document).ready(function () {
             }
         }
         return job_tree;
-    }
-
-
-    function populate_table2(job_stats) {
-        var job_tree = get_job_tree(job_stats);
-
-        // when last j, put tests under 
-        
-
-        for (var [name, stat] of Object.entries(job_stats)) {
-            re = new RegExp('kata-containers-ci-on-push / run-.*-tests.*');
-            var n = name.split('/');
-            for (let i = 0; i<n.length-1; i++)
-            {
-                paths[n[i]] = n[i+1];
-            }
-           
-
-            if (re.test(name)) {
-                var [img_tag, img_sort] = get_weather_icon(stat);
-                var urls = stat['urls'].join(' ');
-                var results = stat['results'].join(' ');
-                var run_nums = stat['run_nums'].join(' ');
-                $('#weather-table tbody').append(
-                  '<tr data-urls="'+urls+'" data-results="'+results+'" data-run-nums="'+run_nums+'">' +
-                    '<td class="dt-left dt-control">'+name+'</td>' +
-                    '<td>'+stat['runs']+'</td>' +
-                    '<td>'+stat['fails']+'</td>' +
-                    '<td>'+stat['skips']+'</td>' +
-                    '<td data-sort="'+img_sort+'">'+img_tag+'</td>' +
-                  '</tr>'
-                );
-            }
-        }
-     
-        // Hard-code for now...could dynamically set the table name or something
-        // more sophisticated later if we have want more tables, etc.
-        $('#weather-table-name').append(
-          '<a class="title" href="https://github.com/kata-containers/kata-containers/actions/workflows/ci-nightly.yaml">'
-        + 'Kata Containers CI Nightly'
-        + '</a>'
-        );
     }
 
     function create_tree_children(tr) 

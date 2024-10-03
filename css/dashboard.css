@@ -1,11 +1,11 @@
 body {
-    background-color: rgb(56, 53, 121);
+    background-color: rgb(154, 164, 175);
 
 }
 
 
 a:visited {
-    color:rgb(119, 119, 119);
+    color:white(119, 119, 119);
 }
 
 a:hover{
@@ -18,7 +18,7 @@ a {
 
 
 .title:visited {
-    color: rgb(119, 119, 119);
+    color: black;
 }
 
 .title:hover{
@@ -33,9 +33,10 @@ a {
     color:white;
     font-size: 50px;
     font-weight: bolder;
-    background-color: rgb(111, 106, 200);
+    background-color: slategray;
     width: fit-content;
     padding: 20px 30px;
+    margin: auto;
 }
 
 
@@ -45,14 +46,14 @@ a {
 }
 
 .container {
-    margin-left: 200px;
+    margin-left: 190px;
 }
 
 nav {
     width: 200px;
     height: 100vh; /* Full viewport height */
-    background-color:rgb(171, 168, 216); 
-    border: 10px solid rgb(111, 106, 200);
+    background-color:rgb(154, 164, 175);
+    border: 10px solid slategray;
     position: fixed;
     top: 0;
     left: 0;
@@ -67,7 +68,7 @@ li {
     margin-left: -15px;
     margin-bottom: 15px;
     width: 145px;
-    background-color: rgb(111, 106, 200);
+    background-color: slategray;
 
 }
 

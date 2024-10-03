@@ -18,11 +18,15 @@
 var ci_nightly_runs_url =  'https://api.github.com/repos/'
                          + 'kata-containers/kata-containers/actions/workflows/'
                          + 'ci-nightly.yaml/runs?per_page=10';
+                     
+// Github API URL for the main branch of the kata-containers repo.
+// Used to get the list of required jobs.
+var main_branch_url = 
+"https://api.github.com/repos/" +
+"kata-containers/kata-containers/branches/main";
 
 // The number of jobs to fetch from the github API on each paged request.
 var jobs_per_request = 100;
-
-
 
 
 // Perform a github API request for workflow runs.
@@ -33,6 +37,18 @@ async function fetch_workflow_runs() {
           "X-GitHub-Api-Version": "2022-11-28",
         },
     }).then(function(response) { return response.json(); });
+}
+
+// Perform a github API request for a list of "Required" jobs
+async function fetch_main_branch() {
+    return fetch(main_branch_url, {
+      headers: {
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    }).then(function (response) {
+      return response.json();
+    });
 }
 
 
@@ -89,9 +105,16 @@ function get_job_data(run) {
     return fetch_jobs(1);
 }
 
+// Extract list of required jobs (i.e. main branch details: protection: required_status_checks: contexts)
+function get_required_jobs(main_branch) {
+    var required_jobs = main_branch["protection"]["required_status_checks"]["contexts"];
+    // console.log('required jobs: ', required_jobs);
+    return required_jobs;
+}
+
 
 // Calculate and return job stats across all runs
-function compute_job_stats(runs_with_job_data) {
+function compute_job_stats(runs_with_job_data, required_jobs) {
     var job_stats = {};
     for (const run of runs_with_job_data) {
         for (const job of run['jobs']) {
@@ -120,6 +143,7 @@ function compute_job_stats(runs_with_job_data) {
             } else {
                 job_stat['results'].push('Pass');
             }
+            job_stat["required"] = required_jobs.includes(job["name"]);
         }
     }
     return job_stats;
@@ -129,6 +153,11 @@ function compute_job_stats(runs_with_job_data) {
 async function main() {
     // Fetch recent workflow runs via the github API
     var workflow_runs = await fetch_workflow_runs();
+
+
+    // Fetch required jobs from main branch
+    var main_branch = await fetch_main_branch();
+    var required_jobs = get_required_jobs(main_branch);
 
     // Fetch job data for each of the runs.
     // Store all of this in an array of maps, runs_with_job_data.
@@ -141,7 +170,7 @@ async function main() {
     // Transform the raw details of each run and its jobs' results into a
     // an array of just the jobs and their overall results (e.g. pass or fail,
     // and the URLs associated with them).
-    var job_stats = compute_job_stats(runs_with_job_data);
+    var job_stats = compute_job_stats(runs_with_job_data, required_jobs);
 
     // Write the job_stats to console as a javascript variable
     console.log('var ci_nightly_data = ');
