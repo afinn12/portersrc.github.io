@@ -9,30 +9,61 @@ $(document).ready(function () {
         'stormy.svg',
     ];
 
-    var display = 'nightly';
+    var display = '';
 
-    function setDisplay(newDisplay) {
-        display = newDisplay;
-        console.log(display);
+    function hideAllChildren(table) {
+        table.rows().every(function () {
+            if (this.child.isShown()) {
+                this.child.hide(); 
+            }
+        });
     }
+ 
 
-    const nightly = document.getElementById('nightly');
-    const pr = document.getElementById('pr');
+    function setDisplay(newDisplay, table) { 
+        console.log(display, " ", newDisplay)
+        if (display !== newDisplay)
+        {
+            display = newDisplay;
+            if (display === "nightly")
+            {
+                table.column(2).visible(true);
+                table.column(3).visible(true);
+                table.column(4).visible(true);
+                table.column(5).visible(false);
+                table.column(6).visible(false);
+                table.column(7).visible(false);
 
-    
-    nightly.addEventListener('click', function () {
-        setDisplay('nightly');
-        console.log(display);
-        // populate_table(ci_nightly_data);
-      });
-    
-    pr.addEventListener('click', function () {
-        setDisplay('pr');
-        console.log(display);
-        // populate_table(ci_nightly_data);
-    });
-    
-    
+                $('#weather-table-name').empty();
+                // Hard-code for now...could dynamically set the table name or something
+                // more sophisticated later if we have want more tables, etc.
+                $('#weather-table-name').append(
+                    '<div style="text-align: center;">' +
+                    '<a class="title" href="https://github.com/kata-containers/kata-containers/actions/workflows/ci-nightly.yaml">' +
+                    'Kata Containers CI Nightly </a>' +
+                    '</div>'
+                );
+            }else{
+                table.column(2).visible(false);
+                table.column(3).visible(false);
+                table.column(4).visible(false);
+                table.column(5).visible(true);
+                table.column(6).visible(true);
+                table.column(7).visible(true);
+
+                $('#weather-table-name').empty();
+                // Hard-code for now...could dynamically set the table name or something
+                // more sophisticated later if we have want more tables, etc.
+                $('#weather-table-name').append(
+                    '<div style="text-align: center;">' +
+                    '<a class="title" href="https://github.com/kata-containers/kata-containers/pulls?state=closed&per_page=">' +
+                    'Kata Containers CI PRs </a>' +
+                    '</div>'
+                );
+            }
+            hideAllChildren(table);
+        }
+    }
 
 
 
@@ -71,25 +102,28 @@ $(document).ready(function () {
                 var urls = stat['urls'].join(' ');
                 var results = stat['results'].join(' ');
                 var run_nums = stat['run_nums'].join(' ');
+
+                var pr_urls = stat['pr_urls'].join(' ');
+                var pr_results = stat['pr_results'].join(' ');
+                var pr_run_nums = stat["pr_nums"].join(' ');
+
+                console.log("nightly append");
                 $('#weather-table tbody').append(
-                    '<tr data-urls="'+urls+'" data-results="'+results+'" data-run-nums="'+run_nums+'">' +
+                    '<tr data-urls="'+urls+'" data-results="'+results+'" data-run-nums="'+run_nums+'"' +
+                    ' data-pr-urls="'+ pr_urls +'" data-pr-results="'+ pr_results +'" data-pr-run-nums="'+ pr_run_nums +'">' +
                         '<td class="dt-left dt-control">'+name+'</td>' +
                         '<td>'+stat['required']+'</td>' +
+                        '<td>'+stat['runs']+'</td>' +
+                        '<td>'+stat['fails']+'</td>' +
+                        '<td>'+stat['skips']+'</td>' +
                         '<td>'+stat['pr_runs']+'</td>' +
                         '<td>'+stat['pr_fails']+'</td>' +
                         '<td>'+stat['pr_skips']+'</td>' +
                         '<td data-sort="'+img_sort+'">'+img_tag+'</td>' +
                     '</tr>'
-                    );               
+                    );
             }
         }
-        // Hard-code for now...could dynamically set the table name or something
-        // more sophisticated later if we have want more tables, etc.
-        $('#weather-table-name').append(
-          '<a class="title" href="https://github.com/kata-containers/kata-containers/actions/workflows/ci-nightly.yaml">'
-        + 'Kata Containers CI Nightly'
-        + '</a>'
-        );
     }
 
     // Create the hyperlinks that will show up when we click a name for more
@@ -98,30 +132,62 @@ $(document).ready(function () {
     // and return the appropriate HTML string from them.
     function format_tr_job_urls(tr) {
         var job_urls = '';
-        var urls = $(tr).data('urls').split(' ');
-        var results = $(tr).data('results').split(' ');
-        var run_nums = $(tr).data('run-nums').toString().split(' ');
-        var result_to_color = {
-            'Pass': '&#128994;', // green
-            'Skip': '&#128993;', // yellow
-            'Fail': '&#128308;', // red
+        if (display === "nightly")
+        {
+            console.log($(tr).data())
+
+            var urls = $(tr).data('urls').split(' ');
+            var results = $(tr).data('results').split(' ');
+            var run_nums = $(tr).data('run-nums').toString().split(' ');
+            var result_to_color = {
+                'Pass': '&#128994;', // green
+                'Skip': '&#128993;', // yellow
+                'Fail': '&#128308;', // red
+            }
+            for (var i = 0; i < urls.length; i++) {
+                job_urls += '' + result_to_color[results[i]]
+                               + '<a href="'
+                               + urls[i]
+                               + '">'
+                               + run_nums[i]
+                               + '</a><span class="p-2"></span>';
+            }
+        }else{
+            console.log($(tr).data())
+            var urls = $(tr).data('pr-urls').split(' ');
+            var results = $(tr).data('pr-results').split(' ');
+            var run_nums = $(tr).data('pr-run-nums').toString().split(' ');
+            var result_to_color = {
+                'Pass': '&#128994;', // green
+                'Skip': '&#128993;', // yellow
+                'Fail': '&#128308;', // red
+            }
+            for (var i = 0; i < urls.length; i++) {
+                job_urls += '' + result_to_color[results[i]]
+                               + '<a href="'
+                               + urls[i]
+                               + '">'
+                               + run_nums[i]
+                               + '</a><span class="p-2"></span>';
+            }
         }
-        for (var i = 0; i < urls.length; i++) {
-            job_urls += '' + result_to_color[results[i]]
-                           + '<a href="'
-                           + urls[i]
-                           + '">'
-                           + run_nums[i]
-                           + '</a><span class="p-2"></span>';
-        }
+ 
         return job_urls;
     }
 
-    function set_datatable_options() {
-        var table = new DataTable('#weather-table', {
-            order: [[2, 'desc']],
-            paging: false
+    function set_datatable_options(table) {
+        var nightly = document.getElementById('nightly');
+        var pr = document.getElementById('pr');
+        
+
+        nightly.addEventListener('click', function () {
+            setDisplay('nightly', table);
         });
+        
+        pr.addEventListener('click', function () {
+            setDisplay('pr', table);
+        });
+
         table.on('click', 'td.dt-control', function (e) {
             let tr = e.target.closest('tr');
             let row = table.row(tr);
@@ -153,7 +219,12 @@ $(document).ready(function () {
 
     function main() {
         populate_table(ci_nightly_data);
-        set_datatable_options();
+        var table = new DataTable('#weather-table', {
+            order: [[2, 'desc']],
+            paging: false
+        });    
+        set_datatable_options(table);
+        setDisplay("nightly", table)
     }
 
     main();

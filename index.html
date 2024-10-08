@@ -16,15 +16,16 @@
     <body>
 
         <nav>
+            <h3 style="text-align: center;">Menu</h3>
             <button id="nightly"> Nightly Jobs</button>
             <button id="pr"> PR Checks</button>
         </nav>
 
         <div class="container">
-            <h1 class="mt-3">Kata CI Dashboard</h1>
+            <h1 class="head">Kata CI Dashboard</h1>
             <h2 class="mt-5" id="weather-table-name"></h2>
             <div style="display: flex; justify-content: flex-end;">
-                <div class="form-check">
+                <div class="check">
                     <input type="checkbox" id="filterRequired" class="form-check-input">
                     <label for="filterRequired" class="form-check-label">Show Only Required</label>
                 </div>
@@ -34,6 +35,9 @@
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Required</th>
+                        <th scope="col">Runs</th>
+                        <th scope="col">Fails</th>
+                        <th scope="col">Skips</th>
                         <th scope="col">Runs</th>
                         <th scope="col">Fails</th>
                         <th scope="col">Skips</th>

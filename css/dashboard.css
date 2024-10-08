@@ -1,35 +1,19 @@
 body {
     background-color: rgb(154, 164, 175);
-
 }
 
-
-a:visited {
-    color:white(119, 119, 119);
-}
-
-a:hover{
-    color:  rgb(139, 151, 222);;
-}
-
-a {
-    color: black; 
-}
-
-
-.title:visited {
+.title:visited, a:visited {
     color: black;
 }
 
-.title:hover{
+.title:hover, a:hover{
     color: white;
 }
-.title {
-    color: rgb(180, 180, 180);
+.title, a {
+    color: rgb(71, 82, 164);
 }
 
-
-.mt-3 {
+.head {
     color:white;
     font-size: 50px;
     font-weight: bolder;
@@ -37,16 +21,16 @@ a {
     width: fit-content;
     padding: 20px 30px;
     margin: auto;
+    margin-top: 20px;
+    border-radius: 40px;
 }
 
-
-.weather-table {
-    background-color: black;
-    color: red;
-}
-
-.container {
-    margin-left: 190px;
+button {
+    text-align: center;
+    width: 150px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    align-content: center;
 }
 
 nav {
@@ -58,23 +42,25 @@ nav {
     top: 0;
     left: 0;
     padding-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-nav ul {
-    list-style-type:none;
+.weather-table {
+    background-color: black;
+    color: red;
 }
 
-li {
-    margin-left: -15px;
-    margin-bottom: 15px;
-    width: 145px;
-    background-color: slategray;
-
+.container {
+    margin-left: 190px;
 }
 
-li a {
-    padding: 5px;
-    font-size: 20px;
-    color: white;
-    text-decoration:none;
-}
+.dt-search, .check {
+    background-color: white;
+    width: fit-content; 
+    padding: 8px; 
+    font-size: 14px; 
+    border: 2px solid #000000; 
+    border-radius: 5px; 
+} 
+
