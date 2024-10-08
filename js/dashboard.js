@@ -9,6 +9,33 @@ $(document).ready(function () {
         'stormy.svg',
     ];
 
+    var display = 'nightly';
+
+    function setDisplay(newDisplay) {
+        display = newDisplay;
+        console.log(display);
+    }
+
+    const nightly = document.getElementById('nightly');
+    const pr = document.getElementById('pr');
+
+    
+    nightly.addEventListener('click', function () {
+        setDisplay('nightly');
+        console.log(display);
+        // populate_table(ci_nightly_data);
+      });
+    
+    pr.addEventListener('click', function () {
+        setDisplay('pr');
+        console.log(display);
+        // populate_table(ci_nightly_data);
+    });
+    
+    
+
+
+
     // Get the weather image for some stat map of fails, skips, and runs. For
     // simplicity, skips are considered fails. Failure rates for the icons are:
     //   stormy: .8 <= x
@@ -34,7 +61,7 @@ $(document).ready(function () {
     function populate_table(job_stats) {
         const url = new URLSearchParams(window.location.search);
         const searchParam = url.get('search') || "";
-        console.log(searchParam)
+        // console.log(searchParam)
 
         for (var [name, stat] of Object.entries(job_stats)) {
             re = new RegExp('kata-containers-ci-on-push / run-.*-tests.*');
@@ -45,15 +72,15 @@ $(document).ready(function () {
                 var results = stat['results'].join(' ');
                 var run_nums = stat['run_nums'].join(' ');
                 $('#weather-table tbody').append(
-                  '<tr data-urls="'+urls+'" data-results="'+results+'" data-run-nums="'+run_nums+'">' +
-                    '<td class="dt-left dt-control">'+name+'</td>' +
-                    '<td>'+stat['required']+'</td>' +
-                    '<td>'+stat['runs']+'</td>' +
-                    '<td>'+stat['fails']+'</td>' +
-                    '<td>'+stat['skips']+'</td>' +
-                    '<td data-sort="'+img_sort+'">'+img_tag+'</td>' +
-                  '</tr>'
-                );
+                    '<tr data-urls="'+urls+'" data-results="'+results+'" data-run-nums="'+run_nums+'">' +
+                        '<td class="dt-left dt-control">'+name+'</td>' +
+                        '<td>'+stat['required']+'</td>' +
+                        '<td>'+stat['pr_runs']+'</td>' +
+                        '<td>'+stat['pr_fails']+'</td>' +
+                        '<td>'+stat['pr_skips']+'</td>' +
+                        '<td data-sort="'+img_sort+'">'+img_tag+'</td>' +
+                    '</tr>'
+                    );               
             }
         }
         // Hard-code for now...could dynamically set the table name or something
@@ -109,7 +136,7 @@ $(document).ready(function () {
     function requiredFilter() {
         $('#weather-table tbody tr').each(function() {
             var required = $(this).find('td').eq(1).text();
-            console.log(required);
+            // console.log(required);
             if(required == 'false' && $('#filterRequired').is(':checked'))
             {
                 $(this).hide(); 
