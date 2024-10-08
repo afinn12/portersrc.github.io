@@ -1,8 +1,8 @@
 name: Fetch CI Nightly Data
 run-name: Fetch CI Nightly Data
 on:
-  schedule:
-    - cron: '0 12 * * *'
+  # schedule:
+  #   - cron: '0 12 * * *'
   workflow_dispatch:
 
 jobs:
