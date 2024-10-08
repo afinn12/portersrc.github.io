@@ -1,23 +1,3 @@
-fetch 23: https://api.github.com/repos/kata-containers/kata-containers/commits/e989e7ee4e0f7a4b838dc0ef80a5f1e237db2113/check-runs?per_page=100&page=1
-fetch 24: https://api.github.com/repos/kata-containers/kata-containers/commits/6d5fc898b85e0d5b2d7c808a894729ce6270a7a7/check-runs?per_page=100&page=1
-fetch 25: https://api.github.com/repos/kata-containers/kata-containers/commits/d7c2b7d13c40c2ea5986a02599854767e3f44a45/check-runs?per_page=100&page=1
-fetch 26: https://api.github.com/repos/kata-containers/kata-containers/commits/1a4928e7103a1747b5a9ab6093a7592c7f63b3ca/check-runs?per_page=100&page=1
-fetch 27: https://api.github.com/repos/kata-containers/kata-containers/commits/973b8a1d8fa6d3328d699e1b84af5d4e6e018b1c/check-runs?per_page=100&page=1
-fetch 28: https://api.github.com/repos/kata-containers/kata-containers/commits/d7c2b7d13c40c2ea5986a02599854767e3f44a45/check-runs?per_page=100&page=2
-fetch 29: https://api.github.com/repos/kata-containers/kata-containers/commits/973b8a1d8fa6d3328d699e1b84af5d4e6e018b1c/check-runs?per_page=100&page=2
-fetch 30: https://api.github.com/repos/kata-containers/kata-containers/commits/e989e7ee4e0f7a4b838dc0ef80a5f1e237db2113/check-runs?per_page=100&page=2
-fetch 31: https://api.github.com/repos/kata-containers/kata-containers/commits/6d5fc898b85e0d5b2d7c808a894729ce6270a7a7/check-runs?per_page=100&page=2
-fetch 32: https://api.github.com/repos/kata-containers/kata-containers/commits/1a4928e7103a1747b5a9ab6093a7592c7f63b3ca/check-runs?per_page=100&page=2
-fetch 33: https://api.github.com/repos/kata-containers/kata-containers/commits/d7c2b7d13c40c2ea5986a02599854767e3f44a45/check-runs?per_page=100&page=3
-fetch 34: https://api.github.com/repos/kata-containers/kata-containers/commits/1a4928e7103a1747b5a9ab6093a7592c7f63b3ca/check-runs?per_page=100&page=3
-fetch 35: https://api.github.com/repos/kata-containers/kata-containers/commits/973b8a1d8fa6d3328d699e1b84af5d4e6e018b1c/check-runs?per_page=100&page=3
-fetch 36: https://api.github.com/repos/kata-containers/kata-containers/commits/e989e7ee4e0f7a4b838dc0ef80a5f1e237db2113/check-runs?per_page=100&page=3
-fetch 37: https://api.github.com/repos/kata-containers/kata-containers/commits/6d5fc898b85e0d5b2d7c808a894729ce6270a7a7/check-runs?per_page=100&page=3
-fetch 38: https://api.github.com/repos/kata-containers/kata-containers/commits/1a4928e7103a1747b5a9ab6093a7592c7f63b3ca/check-runs?per_page=100&page=4
-fetch 39: https://api.github.com/repos/kata-containers/kata-containers/commits/973b8a1d8fa6d3328d699e1b84af5d4e6e018b1c/check-runs?per_page=100&page=4
-fetch 40: https://api.github.com/repos/kata-containers/kata-containers/commits/d7c2b7d13c40c2ea5986a02599854767e3f44a45/check-runs?per_page=100&page=4
-fetch 41: https://api.github.com/repos/kata-containers/kata-containers/commits/6d5fc898b85e0d5b2d7c808a894729ce6270a7a7/check-runs?per_page=100&page=4
-fetch 42: https://api.github.com/repos/kata-containers/kata-containers/commits/e989e7ee4e0f7a4b838dc0ef80a5f1e237db2113/check-runs?per_page=100&page=4
 var ci_nightly_data = 
 {
   'kata-containers-ci-on-push / build-and-publish-tee-confidential-unencrypted-image': {
